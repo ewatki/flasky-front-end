@@ -1,29 +1,42 @@
-import React from "react";
+import React from 'react';
 import Crystal from './Crystal';
+import PropTypes from 'prop-types';
 
-// Create a function compoenent
-const CrystalList  = ({ crystals }) => {
-    // const wonderfulCrystal = 'Amethyst';
-    const crystalComponents = crystals.map( (crystal, index) => {
-        return (
-            <li key={crystal.id}>
-                <Crystal 
-                    id={crystal.id}
-                    name={crystal.name}
-                    color={crystal.color} 
-                    powers={crystal.powers} 
-                />
-            </li>
-    )});
-
+const CrystalList = ({crystals, increaseCharge, removeCrystal}) => {
+  const crystalComponents = crystals.map((crystal, index) => {
     return (
-        <section>
-            <h2>Crystal List</h2>
-            <ul>
-                {crystalComponents}
-            </ul>
-        </section>
+      <li key={index}>
+        <Crystal
+          id={crystal.id}
+          name={crystal.name}
+          color={crystal.color}
+          powers={crystal.powers}
+          charges={crystal.charges}
+          increaseCharge={increaseCharge}
+          removeCrystal={removeCrystal}
+        />
+      </li>
     );
+  });
+
+  return (
+    <section>
+      <h2>Crystal List</h2>
+      <ul>{crystalComponents}</ul>
+    </section>
+  );
 };
 
+CrystalList.propTypes = {
+  crystals: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      color: PropTypes.string.isRequired,
+      powers: PropTypes.string.isRequired,
+    })
+  ),
+  increaseCharge: PropTypes.func.isRequired,
+  removeCrystal: PropTypes.func.isRequired
+};
 export default CrystalList;
